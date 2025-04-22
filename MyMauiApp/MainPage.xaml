@@ -5,8 +5,12 @@
     <Grid Padding="30" RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="20">
         <Entry x:Name="firstNameEntry" Placeholder="First Name" Grid.Row="0" />
         <Entry x:Name="lastNameEntry" Placeholder="Last Name" Grid.Row="1" />
-        <Button Text="Save User" Clicked="OnSaveUserClicked" Grid.Row="2" />
-        <Label Text="Saved Users:" FontAttributes="Bold" Grid.Row="3" />
+        <DatePicker x:Name="birthDayDatePicker"
+                    DateSelected="OnDateSelected"
+                    Grid.Row="2" 
+                     />
+        <Button Text="Save User" Clicked="OnSaveUserClicked" Grid.Row="3" />
+        <Label Text="Saved Users:" FontAttributes="Bold" Grid.Row="4" />
 
         <CollectionView x:Name="usersCollection"
                         Grid.Row="4"
@@ -17,6 +21,7 @@
                     <StackLayout Orientation="Vertical" Spacing="5" Padding="10" BackgroundColor="#f0f0f0">
                         <Label Text="{Binding FirstName}" />
                         <Label Text="{Binding LastName}" />
+                        <Label Text="{Binding BirthDay, StringFormat='{0:MMMM dd, yyyy}'}" />
                         <Button Text="Edit" Clicked="OnEditClicked" CommandParameter="{Binding}" />
                         <Button Text="Delete" Clicked="OnDeleteClicked" CommandParameter="{Binding}" />
                     </StackLayout>

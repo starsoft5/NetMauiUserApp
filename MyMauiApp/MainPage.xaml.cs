@@ -7,11 +7,13 @@ public partial class MainPage : ContentPage
 {
     private readonly AppDbContext _db;
     private User _selectedUser;
+    private DateTime selectedDate;
 
     public MainPage(AppDbContext db)
     {
         InitializeComponent();
         _db = db;
+        selectedDate = DateTime.Now;
         LoadUsers();
     }
 
@@ -24,6 +26,7 @@ public partial class MainPage : ContentPage
     {
         var firstName = firstNameEntry.Text;
         var lastName = lastNameEntry.Text;
+        var birthDay = selectedDate;
 
         if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
         {
@@ -35,12 +38,13 @@ public partial class MainPage : ContentPage
         {
             _selectedUser.FirstName = firstName;
             _selectedUser.LastName = lastName;
+            _selectedUser.BirthDay = selectedDate.Date;
             _db.Users.Update(_selectedUser);
             _selectedUser = null;
         }
         else
         {
-            var user = new User { FirstName = firstName, LastName = lastName };
+            var user = new User { FirstName = firstName, LastName = lastName, BirthDay = selectedDate };
             _db.Users.Add(user);
         }
 
@@ -58,6 +62,7 @@ public partial class MainPage : ContentPage
             _selectedUser = user;
             firstNameEntry.Text = user.FirstName;
             lastNameEntry.Text = user.LastName;
+            
         }
     }
 
@@ -76,5 +81,11 @@ public partial class MainPage : ContentPage
     private void OnUserSelected(object sender, SelectionChangedEventArgs e)
     {
         _selectedUser = e.CurrentSelection.FirstOrDefault() as User;
+    }
+
+    private void OnDateSelected(object sender, DateChangedEventArgs e)
+    {
+        // Get the selected date
+        selectedDate = e.NewDate;
     }
 }
