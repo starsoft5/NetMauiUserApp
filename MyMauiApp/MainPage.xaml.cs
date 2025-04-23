@@ -20,6 +20,7 @@ public partial class MainPage : ContentPage
     private void LoadUsers()
     {
         usersCollection.ItemsSource = _db.Users.ToList();
+        _selectedUser = null;
     }
 
     private void OnSaveUserClicked(object sender, EventArgs e)
@@ -30,6 +31,7 @@ public partial class MainPage : ContentPage
 
         if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
         {
+            _selectedUser = null;
             DisplayAlert("Validation", "Both names are required.", "OK");
             return;
         }
@@ -87,5 +89,46 @@ public partial class MainPage : ContentPage
     {
         // Get the selected date
         selectedDate = e.NewDate;
+    }
+
+    private void OnClearClicked(object sender, EventArgs e)
+    {
+        firstNameEntry.Text = lastNameEntry.Text = string.Empty;
+        LoadUsers();
+
+    }
+
+    // Called when "Edit" label is tapped
+    private void OnEditTapped(object sender, EventArgs e)
+    {
+        var label = (Label)sender;
+        var user = (User)label.BindingContext;
+
+        if (user != null)
+        {
+            firstNameEntry.Text = user.FirstName;
+            lastNameEntry.Text = user.LastName;
+            birthDayDatePicker.Date = user.BirthDay;
+            _selectedUser = user;
+        }
+    }
+
+    // Called when "Delete" label is tapped
+    private void OnDeleteTapped(object sender, EventArgs e)
+    {
+        var label = (Label)sender;
+        var user = (User)label.BindingContext;
+
+        if (user != null)
+        {
+            // Assuming usersCollection.ItemsSource is a List<User>
+            var users = (List<User>)usersCollection.ItemsSource;
+            _db.Users.Remove(user);
+            _db.SaveChanges();
+            LoadUsers();
+            //usersCollection.ItemsSource = null; // Force refresh
+            //usersCollection.ItemsSource = users;
+            _selectedUser = null;
+        }
     }
 }

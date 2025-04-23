@@ -7,10 +7,22 @@
         <Entry x:Name="lastNameEntry" Placeholder="Last Name" Grid.Row="1" />
         <DatePicker x:Name="birthDayDatePicker"
                     DateSelected="OnDateSelected"
-                    Grid.Row="2" 
-                     />
-        <Button Text="Save User" Clicked="OnSaveUserClicked" Grid.Row="3" />
-        <Label Text="Saved Users:" FontAttributes="Bold" Grid.Row="4" />
+                    Grid.Row="2" />
+
+        <!-- Buttons in same row, occupying full width -->
+        <Grid Grid.Row="3" ColumnSpacing="10" ColumnDefinitions="*,*">
+            <Button Text="Save User" 
+                    Clicked="OnSaveUserClicked" 
+                    BackgroundColor="Green" 
+                    TextColor="White"
+                    Grid.Column="0" />
+
+            <Button Text="Clear" 
+                    Clicked="OnClearClicked" 
+                    BackgroundColor="Red" 
+                    TextColor="White"
+                    Grid.Column="1" />
+        </Grid>
 
         <CollectionView x:Name="usersCollection"
                         Grid.Row="4"
@@ -18,15 +30,33 @@
                         SelectionChanged="OnUserSelected">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Vertical" Spacing="5" Padding="10" BackgroundColor="#f0f0f0">
-                        <Label Text="{Binding FirstName}" />
-                        <Label Text="{Binding LastName}" />
-                        <Label Text="{Binding BirthDay, StringFormat='{0:MMMM dd, yyyy}'}" />
-                        <Button Text="Edit" Clicked="OnEditClicked" CommandParameter="{Binding}" />
-                        <Button Text="Delete" Clicked="OnDeleteClicked" CommandParameter="{Binding}" />
-                    </StackLayout>
+                    <Grid Padding="10" BackgroundColor="#f0f0f0" ColumnSpacing="10" RowSpacing="5"
+                          RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+                        <!-- Full Name and Edit Link -->
+                        <Label Text="{Binding FullName}" Grid.Row="0" Grid.Column="0" />
+                        <Label Text="Edit" TextColor="Blue"
+                               Grid.Row="0" Grid.Column="1">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Tapped="OnEditTapped"
+                                    CommandParameter="{Binding}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <!-- Birthday and Delete Link -->
+                        <Label Text="{Binding BirthDay, StringFormat='{0:MMMM dd, yyyy}'}" Grid.Row="1" Grid.Column="0" />
+                        <Label Text="Delete" TextColor="Red"
+                               Grid.Row="1" Grid.Column="1">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Tapped="OnDeleteTapped"
+                                    CommandParameter="{Binding}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
     </Grid>
 </ContentPage>
