@@ -14,7 +14,7 @@
 
     <ShellContent
     Title="Details"
-    ContentTemplate="{DataTemplate local:App}"
-    Route="MainPage" />
+    ContentTemplate="{DataTemplate local:UserList}"
+    Route="UserList" />
 
 </Shell>

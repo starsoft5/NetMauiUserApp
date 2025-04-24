@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMauiApp.UserList"
+             Title="UserList">
+    <!-- Filename: MainPage.xaml -->
+    <VerticalStackLayout>
+
+        <!-- Headers -->
+        <Grid Padding="10" BackgroundColor="#cccccc" ColumnSpacing="10"
+          ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+            <Label x:Name="FirstNameHeader" Text="First Name" Grid.Column="0" TextColor="Black">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSortByFirstName" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label x:Name="LastNameHeader" Text="Last Name" Grid.Column="1" TextColor="Black">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSortByLastName" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label x:Name="BirthDayHeader" Text="BirthDay" Grid.Column="2" TextColor="Black">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSortByBirthDay" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <!-- CollectionView -->
+        <CollectionView x:Name="usersCollection"
+                    SelectionMode="Single"
+                    SelectionChanged="OnUserSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="2" BackgroundColor="#f0f0f0" ColumnSpacing="2" RowSpacing="5"
+                            RowDefinitions="Auto,Auto" ColumnDefinitions="*,*,*">
+                        <Label Text="{Binding FirstName}" Grid.Row="0" Grid.Column="0" FontSize="10" />
+                        <Label Text="{Binding LastName}" Grid.Row="0" Grid.Column="1" FontSize="10" />
+                        <Label Text="{Binding BirthDay, StringFormat='{0:MMMM dd, yyyy}'}" Grid.Row="0" Grid.Column="2" FontSize="10" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+
+</ContentPage>

@@ -1,62 +1,83 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyMauiApp.Converters"
              x:Class="MyMauiApp.MainPage">
 
-    <Grid Padding="30" RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="20">
+    <ContentPage.Resources>
+        <local:RowIndexConverter x:Key="RowIndexConverter"/>
+    </ContentPage.Resources>
+
+    <Grid Padding="10" RowSpacing="10"
+          RowDefinitions="40, 40, 40, 40, *">
+
+        <!-- Input fields -->
         <Entry x:Name="firstNameEntry" Placeholder="First Name" Grid.Row="0" />
         <Entry x:Name="lastNameEntry" Placeholder="Last Name" Grid.Row="1" />
         <DatePicker x:Name="birthDayDatePicker"
                     DateSelected="OnDateSelected"
                     Grid.Row="2" />
 
-        <!-- Buttons in same row, occupying full width -->
-        <Grid Grid.Row="3" ColumnSpacing="10" ColumnDefinitions="*,*">
+        <!-- Buttons -->
+        <Grid Grid.Row="3" ColumnSpacing="10"
+              ColumnDefinitions="*,*">
             <Button Text="Save User" 
-                    Clicked="OnSaveUserClicked" 
-                    BackgroundColor="Green" 
+                    Clicked="OnSaveUserClicked"
+                    BackgroundColor="Green"
                     TextColor="White"
                     Grid.Column="0" />
 
-            <Button Text="Clear" 
-                    Clicked="OnClearClicked" 
-                    BackgroundColor="Red" 
+            <Button Text="Clear"
+                    Clicked="OnClearClicked"
+                    BackgroundColor="Red"
                     TextColor="White"
                     Grid.Column="1" />
         </Grid>
 
+        <!-- User List -->
         <CollectionView x:Name="usersCollection"
                         Grid.Row="4"
                         SelectionMode="Single"
                         SelectionChanged="OnUserSelected">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10" BackgroundColor="#f0f0f0" ColumnSpacing="10" RowSpacing="5"
-                          RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
-                        <!-- Full Name and Edit Link -->
+                    <Grid x:Name="rowGrid"
+                          Padding="5"
+                          ColumnSpacing="10"
+                          RowSpacing="0"
+                          BackgroundColor="{Binding ., Converter={StaticResource RowIndexConverter}, ConverterParameter={x:Reference usersCollection}}"
+                          RowDefinitions="Auto,Auto"
+                          ColumnDefinitions="*,Auto"
+                          Loaded="OnRowLoaded">
+
+                        <!-- Full Name and Edit -->
                         <Label Text="{Binding FullName}" Grid.Row="0" Grid.Column="0" />
-                        <Label Text="Edit" TextColor="Blue"
-                               Grid.Row="0" Grid.Column="1">
+                        <Label Text="Edit" TextColor="Blue" Grid.Row="0" Grid.Column="1">
                             <Label.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    Tapped="OnEditTapped"
-                                    CommandParameter="{Binding}" />
+                                <TapGestureRecognizer Tapped="OnEditTapped" CommandParameter="{Binding}" />
                             </Label.GestureRecognizers>
                         </Label>
 
-                        <!-- Birthday and Delete Link -->
+                        <!-- Birthday and Delete -->
                         <Label Text="{Binding BirthDay, StringFormat='{0:MMMM dd, yyyy}'}" Grid.Row="1" Grid.Column="0" />
-                        <Label Text="Delete" TextColor="Red"
-                               Grid.Row="1" Grid.Column="1">
+                    <!--    <Label Text="Delete" TextColor="Red" Grid.Row="1" Grid.Column="1">
                             <Label.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    Tapped="OnDeleteTapped"
-                                    CommandParameter="{Binding}" />
+                                <TapGestureRecognizer Tapped="OnDeleteTapped" CommandParameter="{Binding}" />
+                            </Label.GestureRecognizers>
+                        </Label> -->
+
+                        <Label Text="Delete" TextColor="Red" Grid.Row="1" Grid.Column="1">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="DeleteLabel_Tapped" CommandParameter="{Binding}" />
                             </Label.GestureRecognizers>
                         </Label>
+
+
+
+
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
         </CollectionView>
+
     </Grid>
 </ContentPage>
