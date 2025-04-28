@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyMauiApp.Data.Models
 {
-    [Table("User")]
+    [Table("Users")]
     public class User
     {
         public int Id { get; set; } // Auto-increment by default in SQLite
