@@ -6,6 +6,11 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        var dbPath = Path.Combine(FileSystem.AppDataDirectory, "XamarinDb.db");
+       /* if (File.Exists(dbPath))
+        {
+            File.Delete(dbPath);
+        } */
         var builder = MauiApp.CreateBuilder();
 
         builder

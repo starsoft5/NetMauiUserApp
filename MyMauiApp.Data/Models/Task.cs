@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace MyMauiApp.Data.Models
 {
-    [Table("User")]
-    public class User
+    [Table("Task")]
+    public class Task
     {
         public int Id { get; set; } // Auto-increment by default in SQLite
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime BirthDay { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
+        public string TaskDescription { get; set; }
+        public int Completed { get; set; }
     }
 }

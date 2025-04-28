@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MyMauiApp.Task"
+    Title="Task List">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <!-- Task Input Form -->
+        <Entry x:Name="taskEntry"
+               Placeholder="Enter task description" />
+
+        <Button Text="Add Task"
+                Clicked="OnAddTaskClicked" />
+
+        <Label x:Name="validationLabel"
+               TextColor="Red"
+               IsVisible="False"
+               FontSize="Small" />
+
+        <CollectionView x:Name="taskCollectionView"
+                         >
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10" ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox IsChecked="{Binding Completed}" />
+
+                        <Label Grid.Column="1"
+                               Text="{Binding TaskDescription}"
+                               VerticalOptions="Center" />
+
+                        <Button Grid.Column="2"
+                                Text="Edit"
+                                Clicked="OnEditTaskClicked"
+                                CommandParameter="{Binding}" />
+
+                        <Button Grid.Column="3"
+                                Text="Delete"
+                                Clicked="OnDeleteTaskClicked"
+                                CommandParameter="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

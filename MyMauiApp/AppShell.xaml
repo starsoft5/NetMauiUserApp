@@ -17,4 +17,8 @@
     ContentTemplate="{DataTemplate local:UserList}"
     Route="UserList" />
 
+    <ShellContent
+Title="My Tasks"
+ContentTemplate="{DataTemplate local:Task}"
+Route="Task" />
 </Shell>
